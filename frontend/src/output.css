@@ -1,0 +1,97 @@
+/*! tailwindcss v4.0.9 | MIT License | https://tailwindcss.com */
+.container {
+  width: 100%;
+}
+.mx-auto {
+  margin-inline: auto;
+}
+.flex {
+  display: flex;
+}
+.table {
+  display: table;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.w-full {
+  width: 100%;
+}
+.border-collapse {
+  border-collapse: collapse;
+}
+.list-none {
+  list-style-type: none;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.border {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+.text-center {
+  text-align: center;
+}
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus, button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
