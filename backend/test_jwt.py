@@ -7,7 +7,7 @@ API_URL = "http://127.0.0.1:5000/add_product"
 
 # Ensure the token is valid before proceeding
 if not JWT_TOKEN or JWT_TOKEN.count('.') != 2:
-    print("❌ Invalid JWT Token! It must have 3 parts (header.payload.signature).")
+    print(" Invalid JWT Token! It must have 3 parts (header.payload.signature).")
     exit()
 
 # Set up headers with JWT
@@ -31,20 +31,20 @@ try:
     response = requests.post(API_URL, headers=headers, json=payload)
 
     # Print the response
-    print("\n🔍 Response Status Code:", response.status_code)
+    print("\n Response Status Code:", response.status_code)
     try:
         response_json = response.json()
-        print("📩 Response JSON:", response_json)
+        print(" Response JSON:", response_json)
 
         # Specific JWT error handling
         if response_json.get("msg") == "Not enough segments":
-            print("⚠️ Possible cause: Invalid or missing JWT token.")
+            print(" Possible cause: Invalid or missing JWT token.")
         elif response_json.get("msg") == "Signature verification failed":
-            print("⚠️ Possible cause: JWT token is expired or incorrect.")
+            print(" Possible cause: JWT token is expired or incorrect.")
         elif response_json.get("msg") == "Token has expired":
-            print("⚠️ Possible cause: JWT token is expired. Please log in again.")
+            print(" Possible cause: JWT token is expired. Please log in again.")
     except Exception:
-        print("⚠️ Response is not in JSON format:", response.text)
+        print(" Response is not in JSON format:", response.text)
 
 except requests.exceptions.RequestException as e:
-    print("❌ Request Error:", e)
+    print(" Request Error:", e)

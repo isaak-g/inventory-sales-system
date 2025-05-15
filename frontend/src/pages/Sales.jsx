@@ -3,7 +3,7 @@ import { FiHome, FiShoppingCart, FiPackage, FiSettings, FiLogOut, FiMenu, FiX } 
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Sidebar from "../components/layout/Sidebar";   // ✅ Import Sidebar
+import Sidebar from "../components/layout/Sidebar";   //  Import Sidebar
 
 export default function Sales() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -18,7 +18,7 @@ export default function Sales() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProduct, setSelectedProduct] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState("");  // ✅ Define price state
+  const [price, setPrice] = useState("");  //  Define price state
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Filters
@@ -31,11 +31,11 @@ export default function Sales() {
     fetchProducts();
   }, []);
 
-  // ✅ Fetch Sales Data from API
+  //  Fetch Sales Data from API
   const fetchSales = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:5000/sales");
-      console.log("📊 Sales API Response:", response.data);  // ✅ Debugging Log
+      console.log("📊 Sales API Response:", response.data);  //  Debugging Log
       
       if (Array.isArray(response.data.sales)) {
         setSales(response.data.sales);
@@ -53,7 +53,7 @@ export default function Sales() {
   };
   
 
-  // ✅ Fetch Products for Sale Selection
+  //  Fetch Products for Sale Selection
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://127.0.0.1:5000/products");
@@ -64,7 +64,7 @@ export default function Sales() {
     }
   };
 
-  // ✅ Apply Filters (Date, Brand, Category)
+  //  Apply Filters (Date, Brand, Category)
   useEffect(() => {
   
     let filtered = sales;
@@ -105,7 +105,7 @@ export default function Sales() {
   
      
 
-  // ✅ Make a Sale (Reduce Stock Automatically)
+  //  Make a Sale (Reduce Stock Automatically)
   const handleMakeSale = async () => {
     if (!selectedProduct || !quantity || Number(quantity) <= 0) {
       alert("⚠️ Please select a product and enter a valid quantity.");
@@ -119,15 +119,15 @@ export default function Sales() {
         { headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" } }
       );
   
-      console.log("✅ Sale Processed:", response.data);
+      console.log(" Sale Processed:", response.data);
   
       if (response.data.sale) {
         const newSale = response.data.sale;
   
-        setSales(prevSales => [newSale, ...prevSales]);  // ✅ Add new sale to state
-        setFilteredSales(prevSales => [newSale, ...prevSales]);  // ✅ Update filtered list
+        setSales(prevSales => [newSale, ...prevSales]);  // Add new sale to state
+        setFilteredSales(prevSales => [newSale, ...prevSales]);  //  Update filtered list
   
-        fetchProducts();  // ✅ Update stock levels
+        fetchProducts();  // Update stock levels
         setIsModalOpen(false);
       } else {
         console.warn("⚠️ No sale data returned from API.");
@@ -139,7 +139,7 @@ export default function Sales() {
   };
   
 
-  // ✅ Calculate Total Revenue
+  //  Calculate Total Revenue
   const totalRevenue = (filteredSales?.length > 0) 
   ? filteredSales.reduce((sum, sale) => sum + ((sale?.quantity || 0) * (sale?.price || 0)), 0)
   : 0;
@@ -171,13 +171,13 @@ export default function Sales() {
           {/* 🔎 Product Name or Brand Search Input */}
           <input 
             type="text" 
-            placeholder="Search by Product Name or Brand..." // ✅ Clearer text
+            placeholder="Search by Product Name or Brand..." //  Clearer text
             className="flex-1 p-3 border border-gray-500 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
             value={filterBrand} 
             onChange={(e) => setFilterBrand(e.target.value.toLowerCase())} 
           />
 
-          {/* 🔽 Dropdown for Category */}
+          {/*  Dropdown for Category */}
           <select 
             className="flex-1 p-3 border border-gray-500 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
             value={filterCategory} 
@@ -206,7 +206,7 @@ export default function Sales() {
           <tbody>
             {Array.isArray(filteredSales) && filteredSales.length > 0 ? (
               filteredSales.map((sale, index) => (
-                sale && sale.id ? (  // ✅ Ensure sale is defined before using sale.id
+                sale && sale.id ? (  //  Ensure sale is defined before using sale.id
                   <tr key={sale.id || index} className="text-gray-900 text-left border hover:bg-gray-100">
                     <td className="border p-3">{sale.date || "Unknown"}</td>  
                     <td className="border p-3">{sale.product || "Unknown"}</td>
@@ -214,7 +214,7 @@ export default function Sales() {
                     <td className="border p-3">${sale.price || 0}</td>
                     <td className="border p-3 font-bold">${(sale.quantity || 0) * (sale.price || 0)}</td>
                   </tr>
-                ) : null // ✅ Skip invalid sale records
+                ) : null //  Skip invalid sale records
               ))
             ) : (
               <tr>

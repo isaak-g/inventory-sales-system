@@ -4,7 +4,7 @@ from flask_jwt_extended import (
     jwt_required, get_jwt_identity, get_jwt
 )
 from flask_jwt_extended.exceptions import NoAuthorizationError
-from jwt.exceptions import ExpiredSignatureError  # ✅ Fix Import
+from jwt.exceptions import ExpiredSignatureError  # Fix Import
 
 
 from models import db, User
@@ -15,7 +15,7 @@ auth = Blueprint("auth", __name__)
 # Store blacklisted tokens (for logout functionality)
 blacklisted_tokens = set()
 
-### ✅ LOGIN ROUTE
+### LOGIN ROUTE
 @auth.route("/login", methods=["POST"])
 def login():
     """Authenticate user & return JWT access & refresh tokens."""
@@ -41,7 +41,7 @@ def login():
         additional_claims={"role": user.role}
     )
 
-    print("Generated Access Token:", access_token)  # ✅ Debugging
+    print("Generated Access Token:", access_token)  # Debugging
     return jsonify({
         "message": "Login successful",
         "access_token": access_token,
@@ -51,8 +51,24 @@ def login():
 
 
     
+@auth.route("/forgot-password", methods=["POST"])
+def forgot_password():
+    data = request.get_json()
+    email = data.get("email")
 
-### ✅ TOKEN REFRESH ROUTE
+    if not email:
+        return jsonify({"message": "Email is required"}), 400
+
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    # Placeholder response (implement email sending logic here)
+    # send_reset_email(user.email, generate_reset_token(user.id))
+
+    return jsonify({"message": f"Reset link sent to {email}"}), 200
+
+### TOKEN REFRESH ROUTE
 @auth.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)  # Requires refresh token
 def refresh():
@@ -62,7 +78,7 @@ def refresh():
     return jsonify({"access_token": new_access_token}), 200
 
 
-### ✅ LOGOUT ROUTE (BLACKLIST TOKEN)
+### LOGOUT ROUTE (BLACKLIST TOKEN)
 @auth.route("/logout", methods=["POST"])
 @jwt_required()
 def logout():
@@ -71,13 +87,13 @@ def logout():
     blacklisted_tokens.add(jti)  # Store it in the blacklist
     return jsonify({"message": "Successfully logged out!"}), 200
 
-### ✅ ADD USER ROUTE (ADMIN-ONLY)
+### ADD USER ROUTE (ADMIN-ONLY)
 @auth.route("/add-user", methods=["POST"])
 @jwt_required()
 def add_user():
     """Only admins can create new users."""
 
-    user_role = get_jwt().get("role")  # ✅ Get role from claims
+    user_role = get_jwt().get("role")  # Get role from claims
 
     if user_role != "admin":
         return jsonify({"error": "Unauthorized"}), 403  # Forbidden
@@ -127,7 +143,7 @@ def update_role(user_id):
     return jsonify({"message": f"User {user.username} role updated to {new_role}."})
 
 
-### ✅ PROTECTED ROUTE (FOR TESTING JWT AUTH)
+### PROTECTED ROUTE (FOR TESTING JWT AUTH)
 @auth.route("/protected", methods=["GET"])
 @jwt_required()
 def protected():
@@ -136,7 +152,7 @@ def protected():
     user_role = get_jwt().get("role")
     return jsonify({"message": "Access granted", "user": {"id": user_id, "role": user_role}})
 
-### ✅ ERROR HANDLING FOR JWT
+### ERROR HANDLING FOR JWT
 @auth.app_errorhandler(ExpiredSignatureError)
 def handle_expired_token(e):
     return jsonify({"error": "Token has expired"}), 401

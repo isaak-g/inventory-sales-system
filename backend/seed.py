@@ -14,7 +14,7 @@ with app.app_context():
         )
         admin.set_password("admin123")  # Set password
         db.session.add(admin)
-        print("✅ Admin user created successfully!")
+        print(" Admin user created successfully!")
 
     # Staff User
     staff_email = "staff@example.com"
@@ -28,6 +28,6 @@ with app.app_context():
         )
         staff.set_password("staff123")  # Set password
         db.session.add(staff)
-        print("✅ Staff user created successfully!")
+        print(" Staff user created successfully!")
 
     db.session.commit()

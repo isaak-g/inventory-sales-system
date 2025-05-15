@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FiTrendingUp, FiRefreshCw } from "react-icons/fi";
-import Sidebar from "../components/layout/Sidebar";   // ✅ Import Sidebar
+import Sidebar from "../components/layout/Sidebar";   //  Import Sidebar
 
 const AIInsights = () => {
   const [recommendations, setRecommendations] = useState(null);

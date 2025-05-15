@@ -12,7 +12,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
 
-    // 🔹 Redirect user to dashboard if already logged in
+    //  Redirect user to dashboard if already logged in
     useEffect(() => {
         if (user) {
             navigate("/dashboard");
@@ -33,7 +33,7 @@ const handleLogin = async (e) => {
         const data = await response.json();
 
         if (response.ok) {
-            console.log("✅ API Response:", data);
+            console.log(" API Response:", data);
             localStorage.setItem("access_token", data.access_token);  // Store JWT
             login(data.user, data.access_token);
             setTimeout(() => navigate("/dashboard"), 100);
@@ -41,7 +41,7 @@ const handleLogin = async (e) => {
             setError(data.message || "Invalid login credentials");
         }
     } catch (err) {
-        console.error("❌ Login Error:", err);
+        console.error(" Login Error:", err);
         setError("Something went wrong. Please try again.");
     } finally {
         setLoading(false); // Re-enable button
@@ -51,38 +51,48 @@ const handleLogin = async (e) => {
     
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-                {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        <div className="flex items-center justify-center h-screen bg-gray-300">
+            <div className="p-6 rounded-lg shadow-lg w-150 bg-gray-100">
+                <h1 className="text-2xl font-bold mb-4 text-center text-gray-700 ">AI powered invetory management system</h1>
+                <div className="bg-white p-6 rounded-lg shadow-lg w-100 ">                
+                    <h2 className="text-2xl font-bold mb-4 text-center text-gray-700 ">Login</h2>
+                    {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-                <form onSubmit={handleLogin} className="space-y-4">
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            className="w-full p-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
 
-                    <button 
-                        type="submit"
-                        className={`w-full bg-blue-600 text-white p-2 rounded ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"}`}
-                        disabled={loading}
-                    >
-                        {loading ? "Logging in..." : "Login"}
-                    </button>
+                        {/* Forgot Password Link */}
+                        <div className="text-right text-sm">
+                            <a href="/forgot-password" className="text-blue-600 hover:underline">
+                                Forgot Password?
+                            </a>
+                        </div>
 
-                </form>
+                        <button 
+                            type="submit"
+                            className={`w-full bg-blue-600 text-white p-2 rounded ${loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"}`}
+                            disabled={loading}
+                        >
+                            {loading ? "Logging in..." : "Login"}
+                        </button>
+                    </form>
+
+                </div>
             </div>
         </div>
     );

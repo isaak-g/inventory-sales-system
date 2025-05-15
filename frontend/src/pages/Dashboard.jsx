@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { FiHome, FiShoppingCart, FiBox, FiSettings, FiLogOut, FiMenu, FiPackage } from "react-icons/fi";
 import { motion } from "framer-motion";
 import axios from "axios";
-import dayjs from "dayjs"; // ✅ Import for date filtering
+import dayjs from "dayjs"; //  Import for date filtering
 
 import { Card, CardContent } from "@/components/ui/card";
 import SalesChart from "../components/charts/SalesChart";
 import CategoryPieChart from "../components/charts/CategoryPieChart";
 import { useAuth } from "../context/AuthContext";
-import Sidebar from "../components/layout/Sidebar";   // ✅ Import Sidebar
+import Sidebar from "../components/layout/Sidebar";   //  Import Sidebar
 
 
 
@@ -22,21 +22,21 @@ export default function Dashboard() {
   const [totalSales, setTotalSales] = useState(0);
   const [salesData, setSalesData] = useState([]);
   const [categoryData, setCategoryData] = useState([]);
-  const [filter, setFilter] = useState("monthly"); // ✅ Default filter
+  const [filter, setFilter] = useState("monthly"); //  Default filter
 
-  // 🔒 Redirect to login if not authenticated
+  // Redirect to login if not authenticated
   useEffect(() => {
     if (!user) navigate("/login");
   }, [user, navigate]);
 
-  // ✅ Handle Sidebar Auto-Collapse on Resize
+  // Handle Sidebar Auto-Collapse on Resize
   useEffect(() => {
     const handleResize = () => setIsSidebarOpen(window.innerWidth > 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // ✅ Fetch Dashboard Data
+  // Fetch Dashboard Data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,7 +50,7 @@ export default function Dashboard() {
         setCategoryCounts(categoryRes.data);
         setTotalSales(salesRes.data.total_sales);
       } catch (error) {
-        console.error("❌ Error fetching dashboard data:", error);
+        console.error(" Error fetching dashboard data:", error);
       }
     };
 
@@ -60,28 +60,28 @@ export default function Dashboard() {
   useEffect(() => {
     axios.get("http://localhost:5000/sales")
       .then(response => {
-        console.log("📊 Sales API Response:", response.data); // Debugging log
+        console.log("Sales API Response:", response.data); // Debugging log
         const formattedSales = response.data.sales.map(sale => ({
-          date: sale.date.split(" ")[0],  // ✅ Keep only "YYYY-MM-DD" for chart
-          total: sale.total_price,  // ✅ Keep total price for graph
-          fullDate: sale.date // ✅ Store full date for table (optional)
+          date: sale.date.split(" ")[0],  //  Keep only "YYYY-MM-DD" for chart
+          total: sale.total_price,  //  Keep total price for graph
+          fullDate: sale.date //  Store full date for table (optional)
         }));
         setSalesData(formattedSales);
       })
-      .catch(error => console.error("❌ Error fetching sales data:", error));
+      .catch(error => console.error(" Error fetching sales data:", error));
   }, []);
 
-  // ✅ Fetch Sales Data & Filter Based on Selected Interval
+  //  Fetch Sales Data & Filter Based on Selected Interval
   useEffect(() => {
     axios.get("http://localhost:5000/sales")
       .then(response => {
         const allSales = response.data.sales.map(sale => ({
-          date: sale.date.split(" ")[0],  // ✅ Keep only "YYYY-MM-DD"
-          fullDate: sale.date, // ✅ Full timestamp (for reference)
+          date: sale.date.split(" ")[0],  //  Keep only "YYYY-MM-DD"
+          fullDate: sale.date, //  Full timestamp (for reference)
           total: sale.total_price
         }));
 
-        // ✅ Filter Sales Based on Selected Interval
+        //  Filter Sales Based on Selected Interval
         const filteredSales = allSales.filter(sale => {
           const saleDate = dayjs(sale.date);
           const now = dayjs();
@@ -95,22 +95,22 @@ export default function Dashboard() {
         setSalesData(filteredSales);
       })
       .catch(error => console.error("❌ Error fetching sales data:", error));
-  }, [filter]); // ✅ Refetch when filter changes
+  }, [filter]); //  Refetch when filter changes
   
 
   useEffect(() => {
-    // ✅ Fetch Total Products & Products by Category
+    //  Fetch Total Products & Products by Category
     axios.get("http://localhost:5000/products/count-total")
       .then(response => setTotalCount(response.data.total_count))
       .catch(error => console.error("Error fetching total product count:", error));
   
     /*axios.get("http://localhost:5000/products/count-by-category")
-      .then(response => setCategoryCounts(response.data)) // ✅ Store product counts separately
+      .then(response => setCategoryCounts(response.data)) //  Store product counts separately
       .catch(error => console.error("Error fetching category counts:", error));*/
 
     axios.get("http://localhost:5000/sales/count-by-category")
       .then(response => {
-        console.log("📊 Sales Category API Response:", response.data); // ✅ Debugging log
+        console.log("📊 Sales Category API Response:", response.data); //  Debugging log
         const formattedData = Object.entries(response.data).map(([category, count]) => ({
           name: category,
           value: count
@@ -119,19 +119,19 @@ export default function Dashboard() {
       })
       .catch(error => console.error("❌ Error fetching sales category data:", error));
   
-    // ✅ Fetch Total Sales
+    //  Fetch Total Sales
     axios.get("http://localhost:5000/sales/total")
       .then(response => setTotalSales(response.data.total_sales))
       .catch(error => console.error("Error fetching total sales:", error));
   
-    // ✅ Fetch Sales Per Category for Pie Chart
+    //  Fetch Sales Per Category for Pie Chart
     axios.get("http://localhost:5000/sales/count-by-category")
       .then(response => {
         const formattedData = Object.entries(response.data).map(([category, count]) => ({
           name: category,
           value: count
         }));
-        setCategoryData(formattedData); // ✅ Use this for Sales Pie Chart
+        setCategoryData(formattedData); //  Use this for Sales Pie Chart
       })
       .catch(error => console.error("Error fetching sales category data:", error));
   }, []);
@@ -147,11 +147,11 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-6 ml-[250px]">
-        <h1 className="text-3xl font-bold mb-4 text-blue-600">Welcome, {user?.email || "User"}!</h1>
+        <h1 className="text-3xl font-bold mb-4 text-blue-600">Welcome, {user?.username || "User"}!</h1>
 
         {/* Dashboard Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <DashboardCard title="Total Sales" value={`$${totalSales}`} />
+          <DashboardCard title="Total Sales" value={`ksh ${totalSales}`} />
           <DashboardCard title="Total Products" value={totalCount} />
           <DashboardCard title="AI Insights" value="+10% Growth" />
         </div>
@@ -187,7 +187,7 @@ export default function Dashboard() {
         <div>
           <h1 className="text-3xl font-bold text-blue-600">📊 Sales & Inventory Overview</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <SalesChart salesData={salesData} /> {/* ✅ Updated Chart */}
+            <SalesChart salesData={salesData} /> {/*  Updated Chart */}
             <CategoryPieChart categoryData={categoryData} />
           </div>
         </div>

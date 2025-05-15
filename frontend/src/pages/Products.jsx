@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 
-import { FiList, FiGrid, FiPlus, FiX, FiHome, FiShoppingCart, FiPackage, FiSettings, FiLogOut, FiMenu, FiEdit, FiTrash, FiSearch } from "react-icons/fi";
+import { FiList, FiGrid, FiPlus, FiX, FiHome, FiShoppingCart, FiPackage, FiSettings, FiLogOut, FiMenu, FiEdit, FiTrash, FiSearch, FiUpload } from "react-icons/fi";
 
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
-import Sidebar from "../components/layout/Sidebar";   // ✅ Import Sidebar
+import Sidebar from "../components/layout/Sidebar";   //  Import Sidebar
 import { useNavigate } from "react-router-dom";
 import axios from "axios";  
 
@@ -65,7 +65,7 @@ useEffect(() => {
     .catch(error => console.error("Error fetching products:", error));
 }, []);
 
-// 🔍 Filter products based on search and category
+//  Filter products based on search and category
 const filteredProducts = products.filter((product) => {
   const matchesSearch =
     searchQuery === "" ||
@@ -121,7 +121,7 @@ const handleAddProduct = async () => {
       },
     });
 
-    console.log("✅ Product added/stock updated:", response.data);
+    console.log(" Product added/stock updated:", response.data);
 
     const updatedProduct = response.data.product;
 
@@ -241,7 +241,7 @@ const handleUpdateProduct = async () => {
       }
     );
 
-    console.log("✅ Product updated:", response.data);
+    console.log(" Product updated:", response.data);
 
     setIsEditModalOpen(false);
     setEditingProduct(null);
@@ -300,7 +300,7 @@ return (
       {/* Search & Filter Section */}
       <div className="flex gap-4 mt-4 mb-6">  {/* Added mb-6 for spacing */}
         
-        {/* 🔍 Search Input */}
+        {/*  Search Input */}
         <div className="relative w-72">
           <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-800 text-xl z-10" />
           <input 
@@ -312,7 +312,7 @@ return (
           />
         </div>
 
-        {/* 🔽 Category Dropdown */}
+        {/*  Category Dropdown */}
         <select
           className="px-4 py-2 border border-gray-400 rounded bg-white text-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={selectedCategory}
@@ -343,7 +343,7 @@ return (
                 {user.role === "admin" && (
                   <div className="flex space-x-2 mt-2">
                     <button onClick={() => openEditModal(product)} className="bg-yellow-500 text-white px-4 py-2 rounded">
-                      <FiEdit /> Edit
+                      <FiUpload /> Upload
                     </button>
                     <button onClick={() => handleDelete(product.id)} className="bg-red-600 text-white px-4 py-2 rounded">
                       <FiTrash /> Delete
@@ -387,7 +387,7 @@ return (
                           onClick={() => openEditModal(product)}
                           className="bg-yellow-500 text-white px-4 py-2 rounded"
                         >
-                          <FiEdit /> Edit
+                          <FiUpload/> Update
                         </button>
                         <button
                           onClick={() => handleDelete(product.id)}

@@ -21,7 +21,7 @@ migrate = Migrate(app, db)
 api = Api(app)
 CORS(app)
 
-# ✅ Set Up JWT Secret Key Before Initializing JWT
+# Set Up JWT Secret Key Before Initializing JWT
 app.config["JWT_SECRET_KEY"] = "your_secret_key"  
 jwt = JWTManager(app)
 
@@ -31,11 +31,11 @@ app.register_blueprint(routes)  # Register routes from routes.py
 app.register_blueprint(ai_bp, url_prefix="/api/ai")  # Register AI blueprint
 
 
-# ✅ Run Flask App
+# Run Flask App
 #if __name__ == "__main__":
     #app.run(debug=True)
     
 if __name__ == "__main__":
     with app.app_context():  
-        db.create_all()  # ✅ Ensure tables exist
+        db.create_all()  # Ensure tables exist
     app.run(debug=True)

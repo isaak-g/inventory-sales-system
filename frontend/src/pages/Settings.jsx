@@ -46,7 +46,7 @@ export default function Settings() {
         { username, email },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage("✅ Profile updated successfully!");
+      setMessage(" Profile updated successfully!");
     } catch (error) {
       console.error("❌ Error updating profile:", error.response?.data || error.message);
       setMessage("❌ Failed to update profile.");
@@ -66,7 +66,7 @@ export default function Settings() {
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage("✅ Password changed successfully!");
+      setMessage(" Password changed successfully!");
       setPassword("");
     } catch (error) {
       console.error("❌ Error changing password:", error.response?.data || error.message);
@@ -88,7 +88,7 @@ export default function Settings() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setMessage(`✅ ${newUser.username} added successfully!`);
+      setMessage(` ${newUser.username} added successfully!`);
       setNewUser({ username: "", email: "", password: "", role: "staff" });
       fetchUsers();
     } catch (error) {
@@ -123,7 +123,7 @@ export default function Settings() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setMessage(`✅ ${existingUser.username} has been promoted to admin.`);
+      setMessage(` ${existingUser.username} has been promoted to admin.`);
       fetchUsers(); 
       setNewAdminEmail("");
     } catch (error) {
@@ -144,7 +144,7 @@ export default function Settings() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setMessage("✅ Admin has been demoted to staff.");
+      setMessage(" Admin has been demoted to staff.");
       fetchUsers();
     } catch (error) {
       console.error("❌ Error removing admin:", error.response?.data || error.message);

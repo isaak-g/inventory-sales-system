@@ -4,7 +4,7 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28FFF"];
 
 export default function CategoryPieChart({ categoryData }) {
   if (!categoryData || categoryData.length === 0) {
-    return <p className="text-gray-500">No sales data available.</p>; // ✅ Show a message if empty
+    return <p className="text-gray-500">No sales data available.</p>; //  Show a message if empty
   }
 
   return (

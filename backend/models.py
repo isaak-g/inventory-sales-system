@@ -54,7 +54,7 @@ class Product(db.Model):
             "category": self.category,
             "price": self.price,
             "stock_quantity": self.stock_quantity,
-            "image": self.image  # ✅ Include image in response
+            "image": self.image  # Include image in response
         }
 
     def __repr__(self):
@@ -68,11 +68,11 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey("product.id"), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
-    price_at_sale = db.Column(db.Float, nullable=False)  # ✅ Store price at sale time
+    price_at_sale = db.Column(db.Float, nullable=False)  # Store price at sale time
     total_price = db.Column(db.Float, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # ✅ Relationships
+    # Relationships
     user = db.relationship("User", backref="orders", lazy=True)
     product = db.relationship("Product", backref="orders", lazy=True)
 
@@ -80,11 +80,11 @@ class Order(db.Model):
         return {
             "id": self.id,
             "date": self.timestamp.strftime("%Y-%m-%d %H:%M:%S") if self.timestamp else "Unknown",
-            "user": self.user.to_dict() if self.user else {"id": self.user_id},  # ✅ Prevent errors
+            "user": self.user.to_dict() if self.user else {"id": self.user_id},  # Prevent errors
             "product": self.product.name if self.product else "Unknown",
             "brand": self.product.brand if self.product else "Unknown",
             "category": self.product.category if self.product else "Unknown",
-            "price": self.price_at_sale,  # ✅ Use stored price
+            "price": self.price_at_sale,  # Use stored price
             "quantity": self.quantity,
             "total_price": self.total_price
         }

@@ -9,7 +9,7 @@ routes = Blueprint("routes", __name__)
 
 
     
-# ✅ Total Product Count (Single Number)
+# Total Product Count (Single Number)
 @routes.route("/products/count-total", methods=["GET"])
 def get_total_product_count():
     """Returns the total number of products."""
@@ -20,7 +20,7 @@ def get_total_product_count():
         return jsonify({"error": f"Failed to fetch total product count: {str(e)}"}), 500
 
 
-# ✅ Category-Wise Product Count
+# Category-Wise Product Count
 @routes.route("/products/count-by-category", methods=["GET"])
 def get_product_count_by_category():
     """Returns the count of products grouped by category."""
@@ -39,7 +39,7 @@ def get_product_count_by_category():
     except Exception as e:
         return jsonify({"error": f"Failed to fetch product counts: {str(e)}"}), 500
     
-# ✅ Fetch All Products (Public Access)
+# Fetch All Products (Public Access)
 @routes.route("/products", methods=["GET"])
 def fetch_products():
     """Fetches all products from the database (accessible to all users)."""
@@ -112,14 +112,14 @@ def add_product():
         return jsonify({"error": f"Internal Server Error: {str(e)}"}), 500
 
 
-# ✅ delete a Product (Requires Admin)
+# delete a Product (Requires Admin)
 @routes.route('/products/<int:product_id>', methods=['DELETE'])
 @jwt_required()  # Require authentication
 def delete_product(product_id):
     """Allows an admin to delete a product."""
     
-    # 🔍 Debug request headers
-    print("🔍 Request Headers:", request.headers)
+    #  Debug request headers
+    print(" Request Headers:", request.headers)
 
     try:
         verify_jwt_in_request()
@@ -207,7 +207,7 @@ def update_product(product_id):
     # Commit the changes
     db.session.commit()
 
-    return jsonify({"message": "✅ Product updated successfully!", "product": product.to_dict()}), 200
+    return jsonify({"message": " Product updated successfully!", "product": product.to_dict()}), 200
 
 
 #sales API Route
@@ -221,11 +221,11 @@ def get_sales():
         sales_list.append({
             "id": order.id,
             "date": order.timestamp.strftime("%Y-%m-%d %H:%M:%S") if order.timestamp else "Unknown",  
-            "user": order.user.to_dict() if order.user else {"id": None, "username": "Unknown"},  # ✅ Prevent crash if user is missing
-            "product": order.product.name if order.product else "Unknown",  # ✅ Prevent crash if product is missing
+            "user": order.user.to_dict() if order.user else {"id": None, "username": "Unknown"},  # Prevent crash if user is missing
+            "product": order.product.name if order.product else "Unknown",  # Prevent crash if product is missing
             "brand": order.product.brand if order.product else "Unknown",
             "category": order.product.category if order.product else "Unknown",
-            "price": order.product.price if order.product else 0.0,  # ✅ Default price
+            "price": order.product.price if order.product else 0.0,  # Default price
             "quantity": order.quantity,
             "total_price": order.total_price
         })
@@ -254,7 +254,7 @@ def make_sale():
         current_user = get_jwt_identity()
         data = request.get_json()
 
-        # ✅ Ensure `quantity` is an integer
+        # Ensure `quantity` is an integer
         product_id = data.get("product_id")
         quantity = int(data.get("quantity", 0))
 
@@ -268,27 +268,27 @@ def make_sale():
         if product.stock_quantity < quantity:
             return jsonify({"error": "Not enough stock available"}), 400
 
-        # ✅ Use transaction to prevent stock deduction if commit fails
+        # Use transaction to prevent stock deduction if commit fails
         total_price = product.price * quantity
         new_order = Order(
             user_id=current_user,
             product_id=product.id,
             quantity=quantity,
-            price_at_sale=product.price,  # ✅ Store product price at sale time
+            price_at_sale=product.price,  # Store product price at sale time
             total_price=total_price
         )
 
         product.stock_quantity -= quantity  # Reduce stock
 
         db.session.add(new_order)
-        db.session.commit()  # ✅ Commit both order and stock update
+        db.session.commit()  # Commit both order and stock update
 
-        return jsonify({"message": "Sale successful!", "sale": new_order.to_dict()}), 201  # ✅ Consistent API response
+        return jsonify({"message": "Sale successful!", "sale": new_order.to_dict()}), 201  # Consistent API response
 
     except ValueError:
         return jsonify({"error": "Quantity must be a valid number"}), 400
     except Exception as e:
-        db.session.rollback()  # ✅ Rollback if failure occurs
+        db.session.rollback()  # Rollback if failure occurs
         return jsonify({"error": str(e)}), 500
 
 
