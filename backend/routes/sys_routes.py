@@ -7,6 +7,10 @@ from sqlalchemy import func
 routes = Blueprint("routes", __name__)
 
 
+@routes.route("/")
+def index():
+    return {"message": "API is running"}, 200
+
 
     
 # Total Product Count (Single Number)

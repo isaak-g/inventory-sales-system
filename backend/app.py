@@ -38,4 +38,10 @@ app.register_blueprint(ai_bp, url_prefix="/api/ai")  # Register AI blueprint
 if __name__ == "__main__":
     with app.app_context():  
         db.create_all()  # Ensure tables exist
+
+        # Add this at the bottom of app.py, before app.run()
+        print("Registered routes:")
+        for rule in app.url_map.iter_rules():
+            print(f"{rule} -> {rule.endpoint}")
+
     app.run(debug=True)
